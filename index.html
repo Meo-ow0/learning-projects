@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>RPS Game</title>
+</head>
+<body>
+    <header>
+        <h1>Rock, Paper, Scissors Game</h1>
+    </header>
+
+    <div class="game-container">
+        <div class="score-board">
+            <h2>Scoreboard</h2>
+            <p id="score">User: 0 | Comp: 0</p>
+        </div>
+
+        <div class="controls">
+            <button onclick="play('rock')">Rock</button>
+            <button onclick="play('paper')">Paper</button>
+            <button onclick="play('scissors')">Scissors</button>
+        </div>
+
+        <div id="result" class="result-box">
+            Choose your weapon to start!
+        </div>
+    </div>
+
+    <script>
+        function play(choice) {
+            fetch('/play', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({choice: choice})
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = 
+                    `You: ${data.user_choice} | Computer: ${data.computer_choice} -> ${data.winner.toUpperCase()}!`;
+                document.getElementById('score').innerText = 
+                    `User: ${data.scores.user} | Comp: ${data.scores.computer}`;
+            });
+        }
+    </script>
+</body>
+</html>
