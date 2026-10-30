@@ -1,0 +1,85 @@
+from flask import Flask, render_template_string, request, redirect, jsonify
+import json
+import os
+
+app = Flask(__name__)
+DATA_FILE = 'contacts.json'
+
+# Helper to read/write JSON
+def read_data():
+    if not os.path.exists(DATA_FILE): return []
+    with open(DATA_FILE, 'r') as f: return json.load(f)
+
+def write_data(data):
+    with open(DATA_FILE, 'w') as f: json.dump(data, f, indent=4)
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    # Handle Adding
+    if request.method == 'POST':
+        new_contact = {
+            "name": request.form.get('name'),
+            "phone": request.form.get('phone'),
+            "email": request.form.get('email'),
+            "address": request.form.get('address')
+        }
+        contacts = read_data()
+        contacts.append(new_contact)
+        write_data(contacts)
+        return redirect('/')
+
+    # Handle Viewing/Searching
+    contacts = read_data()
+    query = request.args.get('q', '').lower()
+    if query:
+        contacts = [c for c in contacts if query in c['name'].lower() or query in c['phone']]
+    
+    # You would typically render a template here. 
+    # For now, this returns a simple view.
+    return render_template_string(INDEX_HTML, contacts=contacts)
+
+INDEX_HTML = """
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { background-color: #ffe6f0; font-family: sans-serif; padding: 20px; }
+        .container { background: white; padding: 20px; border-radius: 15px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ff80ab; padding: 10px; text-align: left; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Add New Contact</h2>
+        <form method="POST">
+            <input type="text" name="name" placeholder="Name" required>
+            <input type="text" name="phone" placeholder="Phone" required>
+            <input type="email" name="email" placeholder="Email">
+            <input type="text" name="address" placeholder="Address">
+            <button type="submit">Add</button>
+        </form>
+
+        <h2>Search</h2>
+        <form action="/" method="GET">
+            <input type="text" name="q" placeholder="Search by name...">
+            <button type="submit">Search</button>
+        </form>
+
+        <table>
+            <tr><th>Name</th><th>Phone</th><th>Email</th></tr>
+            {% for contact in contacts %}
+            <tr>
+                <td>{{ contact.name }}</td>
+                <td>{{ contact.phone }}</td>
+                <td>{{ contact.email }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
+"""
+
+if __name__ == '__main__':
+    app.run(debug=True)
