@@ -49,14 +49,6 @@ cd java/java-programming
 - **Java projects:** compile with `javac` and run with `java`, or open them in an IDE like IntelliJ IDEA.
 - **C project:** compile with `gcc` and run the output file.
 
-## My current work
-
-My main projects are in separate repositories:
-
-- **[Mochi Notes](https://github.com/Meo-ow0/HelloMochii):** a study web app built with FastAPI and SQLite
-- **[Nova](https://github.com/Meo-ow0/Nova-your-personal-AI-companion-):** a multimodal AI companion built with Streamlit
-- **[Employee Data Project](https://github.com/Meo-ow0/data_project):** data cleaning, EDA and machine learning with Python
-
 ## Notes
 
 - Some of the code is old and may need changes to run with current tools.
