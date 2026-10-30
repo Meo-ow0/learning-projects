@@ -1,31 +1,12 @@
-Contact Book
-I build this contact book application which allow users to list people and search them through names or phone numbers. 
-This saved in Json file so data will not disappear when you close tab.
+Rock, Paper, Scissors
 
-Features
-Add Contacts: Save name, phone, email, and address.
+So, I decided to build this Rock, Paper and scissor game with the help of python programming and flask
 
-Search: Quickly filter your contact list by name or number.
+How to get it run 
+You'll need Python installed on your machine. If you have that, you're 90% of the way there.
 
-Persistent Storage: Everything is saved to contacts.json automatically.
+Clone or download this folder to your computer.
 
-interface for a clean, friendly look.
+Open your terminal (or command prompt) and head into that folder.
 
-Setup
-You'll need Flask installed to run this.
-
-Organize your folders:
-
-app.py (The main logic)
-
-/static/style.css
-
-How it works
-This app uses a simple request-response cycle. When you submit the "Add" form, the server processes that data and writes it to a file. When you search, it filters that same file in real-time.
-
-Built With
-Python/Flask: The backbone of the server logic.
-
-JSON: Used as a lightweight database to store your contacts permanently.
-
-HTML/CSS: For the user interface 
+Install Flask if you don’t have it yet: pip install flask
